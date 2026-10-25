@@ -4,7 +4,7 @@
 
 已在 **OPPO OWW221（Android 11，armeabi-v7a，378×496）** 真机验证。
 
-![主页](docs/home.png)
+![主页](docs/home-v160.png)
 
 ## 功能
 
@@ -23,7 +23,9 @@
 
 | 菜单 | 关于 |
 | --- | --- |
-| ![菜单](docs/menu.png) | ![关于](docs/about.png) |
+| ![菜单](docs/menu-v160.png) | ![关于](docs/about-v160.png) |
+
+![个性化](docs/personalization-v160.png)
 
 ## 目录
 
