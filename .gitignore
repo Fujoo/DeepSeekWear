@@ -1,0 +1,21 @@
+# Build output
+watchchat/build/
+build/
+*.idsig
+
+# Local test artifacts / secrets
+watchchat/prefs_*.xml
+watchchat/mock*
+watchchat/*.log
+watchchat/screenshot*
+watchchat/ui_*.xml
+watchchat/scale_ui.xml
+
+# DSH internal locks
+.dsh-ops-update-*.lock
+
+# IDE / OS
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
