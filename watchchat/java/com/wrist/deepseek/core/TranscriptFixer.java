@@ -11,7 +11,10 @@ public class TranscriptFixer {
         if (raw == null || raw.trim().isEmpty()) return "";
         String subject = settings.getSubjectMode();
         String prepared = MathSpeech.normalize(raw, subject);
-        if (!settings.isAutoCorrect() || !settings.hasDeepSeekKey()) return prepared.trim();
+        boolean subjectCorrection = !Subject.AUTO.equals(subject)
+                && !Subject.OTHER.equals(subject);
+        if ((!settings.isAutoCorrect() && !subjectCorrection)
+                || !settings.hasDeepSeekKey()) return prepared.trim();
         if (prepared.length() > 500) return prepared.trim();
         try {
             DeepSeekClient client = new DeepSeekClient();

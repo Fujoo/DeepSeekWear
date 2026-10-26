@@ -23,6 +23,13 @@ public final class MathSpeech {
 
         String s = replaceFractions(text);
         s = replacePowers(s);
+        // Common math-dictation homophones seen with watch microphones.
+        s = s.replace("设计和", "设集合")
+                .replace("真整数", "正整数")
+                .replace("人以", "任意")
+                .replace("之阶", "之积");
+        s = s.replaceAll("[，,]其元素中", "，且元素中");
+        s = upperSetVariable(s);
         s = s.replace("大于或等于", "≥").replace("大于等于", "≥")
                 .replace("小于或等于", "≤").replace("小于等于", "≤")
                 .replace("不等于", "≠").replace("约等于", "≈").replace("等于", "=")
@@ -67,6 +74,17 @@ public final class MathSpeech {
                 value = (m.group(2) == null ? "" : "√") + num + "/" + den;
             }
             m.appendReplacement(out, Matcher.quoteReplacement(value));
+        }
+        m.appendTail(out);
+        return out.toString();
+    }
+
+    private static String upperSetVariable(String s) {
+        Matcher m = Pattern.compile("集合\\s*([a-z])").matcher(s);
+        StringBuffer out = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(out, Matcher.quoteReplacement(
+                    "集合" + Character.toUpperCase(m.group(1).charAt(0))));
         }
         m.appendTail(out);
         return out.toString();

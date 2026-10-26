@@ -1470,9 +1470,13 @@ public class MainActivity extends ScaledActivity {
             asr.transcribe(settings, wav, new AsrClient.Callback() {
                 @Override
                 public void onResult(String text) {
-                    boolean holdFast = autoSend && settings.isHoldFastVoice();
+                    String subject = settings.getSubjectMode();
+                    boolean subjectCorrection = !com.wrist.deepseek.core.Subject.AUTO.equals(subject)
+                            && !com.wrist.deepseek.core.Subject.OTHER.equals(subject);
+                    boolean holdFast = autoSend && settings.isHoldFastVoice()
+                            && !subjectCorrection;
                     String prepared = com.wrist.deepseek.core.MathSpeech.normalize(
-                            text, settings.getSubjectMode());
+                            text, subject);
                     String fixed = holdFast
                             ? prepared
                             : fixer.fix(settings, store.messages(conversationId), prepared);
