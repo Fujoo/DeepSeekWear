@@ -1471,9 +1471,11 @@ public class MainActivity extends ScaledActivity {
                 @Override
                 public void onResult(String text) {
                     boolean holdFast = autoSend && settings.isHoldFastVoice();
+                    String prepared = com.wrist.deepseek.core.MathSpeech.normalize(
+                            text, settings.getSubjectMode());
                     String fixed = holdFast
-                            ? text
-                            : fixer.fix(settings, store.messages(conversationId), text);
+                            ? prepared
+                            : fixer.fix(settings, store.messages(conversationId), prepared);
                     App.MAIN.post(() -> applyVoiceText(fixed, session, autoSend));
                 }
 

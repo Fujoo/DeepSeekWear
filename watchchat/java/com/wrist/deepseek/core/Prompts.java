@@ -52,13 +52,23 @@ public class Prompts {
     }
 
     public static String correctionSystem() {
+        return correctionSystem(Subject.AUTO);
+    }
+
+    public static String correctionSystem(String subject) {
         return "你是一个语音转写纠错器。你会收到「最近对话」和「待纠正的语音转写」。" +
                 "请结合上下文，修正同音字、错别字、断句、标点和专有名词，使这句话成为用户真正想说的内容。" +
                 "规则：只输出纠正后的那一句话；不要回答用户；不要解释；不要添加原话中没有的信息；" +
-                "保留说话人的语气、口语和意思；如果原文本已经通顺，就原样输出。";
+                "保留说话人的语气、口语和意思；如果原文本已经通顺，就原样输出。" +
+                "\n【学科规则】" + Subject.correctionRules(subject) +
+                "\n【优先术语】" + Subject.lexicon(subject);
     }
 
     public static String correctionUser(List<Message> recent, String raw) {
+        return correctionUser(recent, raw, Subject.AUTO);
+    }
+
+    public static String correctionUser(List<Message> recent, String raw, String subject) {
         StringBuilder b = new StringBuilder();
         b.append("【最近对话】\n");
         if (recent == null || recent.isEmpty()) {
@@ -74,6 +84,7 @@ public class Prompts {
                 b.append(who).append("：").append(text).append('\n');
             }
         }
+        b.append("\n【学科】").append(Subject.label(subject)).append('\n');
         b.append("\n【待纠正的语音转写】\n").append(raw == null ? "" : raw.trim());
         b.append("\n\n只输出纠正后的文本。");
         return b.toString();

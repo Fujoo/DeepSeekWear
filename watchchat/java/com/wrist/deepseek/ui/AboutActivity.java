@@ -123,13 +123,18 @@ public class AboutActivity extends ScaledActivity {
         TextView changelog = Ui.mediumText(this, "版本更新", 12, Ui.MUTED);
         content.addView(changelog);
 
-        String version = "1.7.0";
+        String version = "1.8.0-special";
         try {
             version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
         addVersion("v" + version, true,
+                "特别版：新增学科模式（自动 / 数学 / 语文 / 地理 / 其他）",
+                "数学口语自动转符号：二分之一、x 平方、根号、因为所以",
+                "按学科加入术语热词和 DeepSeek 纠错规则");
+
+        addVersion("v1.7.0", false,
                 "修复 LaTeX 数学公式显示：分式/斜杠分数、组合数、概率符号、方框与上下标",
                 "块级公式居中显示，不再出现原始 LaTeX 代码");
 

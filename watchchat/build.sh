@@ -15,7 +15,7 @@ mkdir -p "$OUT/gen" "$OUT/classes" "$OUT/dex"
 "$AAPT2" link -o "$OUT/base.apk" -I "$ANDROID_JAR" \
   --manifest AndroidManifest.xml -R "$OUT/res.zip" --java "$OUT/gen" \
   --auto-add-overlay --min-sdk-version 23 --target-sdk-version 28 \
-  --version-code 8 --version-name 1.7.0
+  --version-code 9 --version-name 1.8.0-special
 find java "$OUT/gen" -name '*.java' | sort > "$OUT/sources.txt"
 javac --release 8 -encoding UTF-8 -nowarn -classpath "$ANDROID_JAR" \
   -d "$OUT/classes" @"$OUT/sources.txt"
@@ -25,6 +25,6 @@ java -cp "$R8JAR" com.android.tools.r8.D8 --release --min-api 23 \
 ( cd "$OUT/dex" && jar -0uf ../base.apk classes.dex )
 "$ZIPALIGN" -f 4 "$OUT/base.apk" "$OUT/aligned.apk"
 "$APKSIGNER" sign --ks "$KS" --ks-pass pass:android --key-pass pass:android \
-  --out "$OUT/DeepSeekWear-v1.7.0.apk" "$OUT/aligned.apk"
-"$APKSIGNER" verify --print-certs "$OUT/DeepSeekWear-v1.7.0.apk" | head -4
-ls -lh "$OUT/DeepSeekWear-v1.7.0.apk"
+  --out "$OUT/DeepSeekWear-v1.8.0-special.apk" "$OUT/aligned.apk"
+"$APKSIGNER" verify --print-certs "$OUT/DeepSeekWear-v1.8.0-special.apk" | head -4
+ls -lh "$OUT/DeepSeekWear-v1.8.0-special.apk"

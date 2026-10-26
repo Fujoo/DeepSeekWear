@@ -208,6 +208,14 @@ public class Settings {
     }
 
     /** Hold-to-talk uses a faster path by default: skip the extra correction round-trip. */
+    public String getSubjectMode() {
+        return Subject.normalize(p.getString("subject_mode", Subject.AUTO));
+    }
+
+    public void setSubjectMode(String value) {
+        p.edit().putString("subject_mode", Subject.normalize(value)).apply();
+    }
+
     public boolean isHoldFastVoice() {
         return p.getBoolean("hold_fast", true);
     }

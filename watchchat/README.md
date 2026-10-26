@@ -14,6 +14,7 @@
 - **联网搜索**：输入框左侧地球按钮，开启后先调用 DeepSeek Search API，再基于网页资料回答，并显示“来源 · N 个网页”
 - **隐私空间**：菜单进入，四位数字密码；隐私对话只在隐私空间可见，普通历史完全过滤
 - **语音模型可选**：SenseVoiceSmall / TeleSpeechASR / XingChenASR-V3.2-Ultra / 自定义模型
+- **1.8.0 特别版**：语音学科模式（自动/数学/语文/地理/其他），数学口语转符号，按学科热词和纠错规则
 - **v1.7 更新**：修复 LaTeX 数学公式显示，分式与斜杠分数画成上下结构，组合数/概率符号/方框/上下标转为可读文本，块级公式居中
 - **v1.6 更新**：麦克风单次录音上限从 45 秒提升到 **5 分钟**
 - **v1.5 细节**：深色胶囊输入栏、磨砂暗深蓝麦克风、左上角时间、地球双纬线
@@ -57,13 +58,13 @@
 APK：
 
 ```text
-out/DeepSeekWear-v1.7.0.apk
+out/DeepSeekWear-v1.8.0-special.apk
 ```
 
 安装方式（任选）：
 
 ```bash
-adb install -r out/DeepSeekWear-v1.7.0.apk
+adb install -r out/DeepSeekWear-v1.8.0-special.apk
 ```
 
 或把手表连电脑，用“安卓手表 ADB 实用工具箱”安装 APK。
@@ -297,8 +298,8 @@ bash watchchat/build.sh
 产物：
 
 ```text
-watchchat/build/DeepSeekWear-v1.7.0.apk
-out/DeepSeekWear-v1.7.0.apk
+watchchat/build/DeepSeekWear-v1.8.0-special.apk
+out/DeepSeekWear-v1.8.0-special.apk
 ```
 
 当前 APK 使用 debug keystore 签名，适合个人侧载；如需上架应用商店，请换成正式签名。

@@ -22,6 +22,7 @@ import com.wrist.deepseek.App;
 import com.wrist.deepseek.core.ChatStore;
 import com.wrist.deepseek.core.DeepSeekClient;
 import com.wrist.deepseek.core.Settings;
+import com.wrist.deepseek.core.Subject;
 import com.wrist.deepseek.core.SetupServer;
 import com.wrist.deepseek.util.Ui;
 
@@ -38,6 +39,7 @@ public class SettingsActivity extends ScaledActivity {
     private TextView asrKeyValue;
     private TextView asrServiceValue;
     private TextView asrModelValue;
+    private TextView subjectValue;
     private TextView privacyValue;
     private TextView personalizationValue;
     private SetupServer server;
@@ -148,6 +150,8 @@ public class SettingsActivity extends ScaledActivity {
         addSwitchRow(voiceCard, IconView.MIC, "按住说话快速语音", settings.isHoldFastVoice(), value -> {
             settings.setHoldFastVoice(value);
         }, false);
+        subjectValue = addRow(voiceCard, IconView.SPARK, "学科模式",
+                Subject.label(settings.getSubjectMode()), v -> chooseSubject(), false);
         addSwitchRow(voiceCard, IconView.SPARK, "结合上下文纠错", settings.isAutoCorrect(), value -> {
             settings.setAutoCorrect(value);
         }, false);
@@ -290,6 +294,7 @@ public class SettingsActivity extends ScaledActivity {
         asrKeyValue.setTextColor(settings.hasAsrKey() ? Ui.MUTED : Ui.ERROR);
         asrServiceValue.setText(asrLabel());
         asrModelValue.setText(modelLabel());
+        if (subjectValue != null) subjectValue.setText(Subject.label(settings.getSubjectMode()));
         if (privacyValue != null) {
             privacyValue.setText(settings.hasPrivacyPin() ? "已设置 · 可修改" : "未设置");
             privacyValue.setTextColor(settings.hasPrivacyPin() ? Ui.MUTED : Ui.DIM);
@@ -312,6 +317,24 @@ public class SettingsActivity extends ScaledActivity {
         if (m.contains("TeleSpeech")) return "TeleSpeechASR";
         if (m.contains("XingChen")) return "XingChenASR-V3.2-Ultra";
         return m;
+    }
+
+    private void chooseSubject() {
+        String[] modes = {Subject.AUTO, Subject.MATH, Subject.CHINESE,
+                Subject.GEOGRAPHY, Subject.OTHER};
+        String current = settings.getSubjectMode();
+        List<Widgets.Item> items = new ArrayList<>();
+        for (String mode : modes) {
+            String label = Subject.label(mode);
+            if (mode.equals(current)) label += " · 当前";
+            items.add(new Widgets.Item(label,
+                    mode.equals(current) ? IconView.CHECK : IconView.SPARK));
+        }
+        Widgets.showSheet(this, "语音识别学科", items, index -> {
+            settings.setSubjectMode(modes[index]);
+            refreshValues();
+            Ui.toast(this, "学科模式：" + Subject.label(modes[index]));
+        });
     }
 
     private void chooseAsrModel() {

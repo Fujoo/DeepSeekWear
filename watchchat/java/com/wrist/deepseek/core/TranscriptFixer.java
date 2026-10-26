@@ -9,15 +9,17 @@ import java.util.Locale;
 public class TranscriptFixer {
     public String fix(Settings settings, List<Message> recent, String raw) {
         if (raw == null || raw.trim().isEmpty()) return "";
-        if (!settings.isAutoCorrect() || !settings.hasDeepSeekKey()) return raw.trim();
-        if (raw.length() > 500) return raw.trim();
+        String subject = settings.getSubjectMode();
+        String prepared = MathSpeech.normalize(raw, subject);
+        if (!settings.isAutoCorrect() || !settings.hasDeepSeekKey()) return prepared.trim();
+        if (prepared.length() > 500) return prepared.trim();
         try {
             DeepSeekClient client = new DeepSeekClient();
-            String prompt = Prompts.correctionUser(recent, raw);
-            int max = Math.max(96, Math.min(480, raw.length() * 3));
-            String out = client.complete(settings, Prompts.correctionSystem(), prompt, max);
-            String cleaned = clean(out, raw);
-            return TextUtils.isEmpty(cleaned) ? raw.trim() : cleaned;
+            String prompt = Prompts.correctionUser(recent, prepared, subject);
+            int max = Math.max(96, Math.min(480, prepared.length() * 3));
+            String out = client.complete(settings, Prompts.correctionSystem(subject), prompt, max);
+            String cleaned = clean(out, prepared);
+            return TextUtils.isEmpty(cleaned) ? prepared.trim() : cleaned;
         } catch (Throwable t) {
             return raw.trim();
         }

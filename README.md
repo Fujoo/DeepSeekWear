@@ -10,6 +10,7 @@
 
 - 流式聊天、深度思考、Markdown 渲染
 - LaTeX 数学公式：分式与斜杠分数画成上下结构，组合数、概率符号、方框、上下标，块级公式居中
+- 特别版学科模式：自动 / 数学 / 语文 / 地理 / 其他；数学口语自动转符号，按学科热词纠错
 - 联网搜索，回答带引用与来源列表
 - 四位密码隐私空间，普通/隐私历史隔离
 - 按住输入框说话，松手自动发送；上滑取消
@@ -27,6 +28,7 @@
 | ![菜单](docs/menu-v160.png) | ![关于](docs/about-v170.png) |
 
 ![数学公式](docs/math-frac-v170.png)
+![学科模式](docs/subject-v180.png)
 
 ![个性化](docs/personalization-v160.png)
 
@@ -59,14 +61,14 @@ docs/                 README 截图
 bash watchchat/build.sh
 ```
 
-产物：`watchchat/build/DeepSeekWear-v1.7.0.apk`
+产物：`watchchat/build/DeepSeekWear-v1.8.0-special.apk`
 
 如果没有该目录，请按 `watchchat/build.sh` 顶部的变量准备工具链，或修改路径。
 
 ## 安装
 
 ```bash
-adb install -r out/DeepSeekWear-v1.7.0.apk
+adb install -r out/DeepSeekWear-v1.8.0-special.apk
 ```
 
 ## 配置
