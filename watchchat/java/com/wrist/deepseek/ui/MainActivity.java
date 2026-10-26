@@ -407,17 +407,17 @@ public class MainActivity extends ScaledActivity {
         center.setGravity(Gravity.CENTER);
         center.setClickable(true);
         center.setBackground(circleRipple(0x14FFFFFF, 14));
-        titleView = Ui.mediumText(this, "DeepSeek", 15.5f, Ui.TEXT);
+        titleView = Ui.mediumText(this, "DeepSeek", 19f, Ui.TEXT);
         center.addView(titleView);
         titleDot = new View(this);
         GradientDrawable dotBg = Ui.round(Ui.ACCENT, 3, this);
         titleDot.setBackground(dotBg);
-        LinearLayout.LayoutParams dotLp = new LinearLayout.LayoutParams(Ui.dp(this, 6), Ui.dp(this, 6));
-        dotLp.leftMargin = Ui.dp(this, 5);
+        LinearLayout.LayoutParams dotLp = new LinearLayout.LayoutParams(Ui.dp(this, 7), Ui.dp(this, 7));
+        dotLp.leftMargin = Ui.dp(this, 6);
         center.addView(titleDot, dotLp);
         center.setOnClickListener(v -> showModelSheet());
         FrameLayout.LayoutParams clp = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, Ui.dp(this, 34));
+                ViewGroup.LayoutParams.WRAP_CONTENT, Ui.dp(this, 38));
         clp.gravity = Gravity.CENTER;
         bar.addView(center, clp);
 
