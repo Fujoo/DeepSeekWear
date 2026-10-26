@@ -11,18 +11,27 @@ public class FractionSpan extends ReplacementSpan {
     private final String denominator;
     private final float pad;
     private final float gap;
+    private final int color;
 
     public FractionSpan(String numerator, String denominator, float pad, float gap) {
+        this(numerator, denominator, pad, gap, 0);
+    }
+
+    public FractionSpan(String numerator, String denominator, float pad, float gap,
+                        int color) {
         this.numerator = numerator == null ? "" : numerator;
         this.denominator = denominator == null ? "" : denominator;
         this.pad = pad;
         this.gap = gap;
+        this.color = color;
     }
 
     private TextPaint small(Paint paint) {
         TextPaint tp = new TextPaint(paint);
-        tp.setTextSize(paint.getTextSize() * 0.82f);
+        // Keep numerator/denominator at the surrounding formula size.
+        tp.setTextSize(paint.getTextSize());
         tp.setStyle(Paint.Style.FILL);
+        if (color != 0) tp.setColor(color);
         return tp;
     }
 
@@ -62,6 +71,7 @@ public class FractionSpan extends ReplacementSpan {
 
         Paint linePaint = new Paint(tp);
         linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setColor(tp.getColor());
         linePaint.setStrokeWidth(Math.max(1.2f, tp.getTextSize() * 0.09f));
         canvas.drawLine(x + pad * 0.5f, lineY, x + w - pad * 0.5f, lineY, linePaint);
     }

@@ -55,7 +55,7 @@ public final class Markdown {
                 if (line.charAt(0) == MathText.BLOCK) {
                     String t = line.substring(1);
                     int start = out.length();
-                    inline(out, t, c);
+                    inline(out, t, c, 0xFFDCE8FF);
                     out.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
                             start, out.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     out.setSpan(new ForegroundColorSpan(0xFFDCE8FF), start, out.length(),
@@ -154,6 +154,10 @@ public final class Markdown {
     }
 
     private static void inline(SpannableStringBuilder out, String s, Context c) {
+        inline(out, s, c, 0);
+    }
+
+    private static void inline(SpannableStringBuilder out, String s, Context c, int formulaColor) {
         int i = 0;
         int bold = -1, italic = -1, strike = -1, code = -1;
         while (i < s.length()) {
@@ -167,7 +171,7 @@ public final class Markdown {
                     int start = out.length();
                     out.append(num).append('/').append(den);
                     out.setSpan(new FractionSpan(num, den,
-                                    Ui.dp(c, 2), Ui.dp(c, 1.5f)),
+                                    Ui.dp(c, 2), Ui.dp(c, 1.5f), formulaColor),
                             start, out.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     i = end + 1;
                     continue;

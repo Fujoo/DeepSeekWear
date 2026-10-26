@@ -96,11 +96,22 @@ public final class MathText {
             }
             String expr = slashFractions(formatExpr(s.substring(next + 2, end)));
             if (block) {
-                out.append("\n\n");
+                // Normalize to exactly one blank line around a display formula.
+                while (out.length() > 0 && out.charAt(out.length() - 1) == '\n') {
+                    out.deleteCharAt(out.length() - 1);
+                }
+                if (out.length() > 0) out.append("\n\n");
                 for (String line : expr.split("\n", -1)) {
-                    out.append(BLOCK).append(line).append('\n');
+                    if (!line.isEmpty()) {
+                        out.append(BLOCK).append(line).append('\n');
+                    }
                 }
                 out.append('\n');
+                // Absorb source blank lines after a display formula too.
+                int after = end + 2;
+                while (after < s.length() && Character.isWhitespace(s.charAt(after))) after++;
+                i = after;
+                continue;
             } else {
                 out.append(expr);
             }
