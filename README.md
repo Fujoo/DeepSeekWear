@@ -26,7 +26,7 @@
 | --- | --- |
 | ![菜单](docs/menu-v160.png) | ![关于](docs/about-v170.png) |
 
-![数学公式](docs/math-v170.png)
+![数学公式](docs/math-frac-v170.png)
 
 ![个性化](docs/personalization-v160.png)
 

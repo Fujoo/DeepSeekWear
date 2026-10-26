@@ -40,13 +40,16 @@ public class FractionSpan extends ReplacementSpan {
                        Paint.FontMetricsInt fm) {
         TextPaint tp = small(paint);
         float w = Math.max(tp.measureText(numerator), tp.measureText(denominator));
-        float line = tp.getFontMetrics().descent - tp.getFontMetrics().ascent;
-        float total = line * 2 + gap + pad * 2;
+        Paint.FontMetrics f = tp.getFontMetrics();
+        float line = f.descent - f.ascent;
+        float axis = tp.getTextSize() * 0.28f;
+        float above = line + gap / 2f + pad + axis;
+        float below = line + gap / 2f + pad - axis;
         if (fm != null) {
-            fm.ascent = -(int) Math.ceil(total);
-            fm.descent = 0;
+            fm.ascent = -(int) Math.ceil(above);
+            fm.descent = (int) Math.ceil(below);
             fm.top = fm.ascent;
-            fm.bottom = 0;
+            fm.bottom = fm.descent;
         }
         return (int) Math.ceil(w + pad * 2);
     }
@@ -56,18 +59,17 @@ public class FractionSpan extends ReplacementSpan {
                      float x, int top, int y, int bottom, Paint paint) {
         TextPaint tp = small(paint);
         Paint.FontMetrics f = tp.getFontMetrics();
-        float lineH = f.descent - f.ascent;
-        float total = lineH * 2 + gap + pad * 2;
+        float axis = tp.getTextSize() * 0.28f;
         float w = Math.max(tp.measureText(numerator), tp.measureText(denominator)) + pad * 2;
-        float topY = y - total;
-        float numBase = topY + pad - f.ascent;
-        float denBase = topY + pad + lineH + gap - f.ascent;
-        float lineY = topY + pad + lineH + gap / 2f;
+        float barY = y - axis;
+        float numBase = barY - gap / 2f - f.descent;
+        float denBase = barY + gap / 2f - f.ascent;
 
         canvas.drawText(numerator, x + (w - tp.measureText(numerator)) / 2f,
                 numBase, tp);
         canvas.drawText(denominator, x + (w - tp.measureText(denominator)) / 2f,
                 denBase, tp);
+        float lineY = barY;
 
         Paint linePaint = new Paint(tp);
         linePaint.setStyle(Paint.Style.STROKE);
