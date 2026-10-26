@@ -318,7 +318,7 @@ public class SettingsActivity extends ScaledActivity {
         List<Widgets.Item> items = new ArrayList<>();
         items.add(new Widgets.Item("SenseVoiceSmall · 高精度", IconView.CHECK));
         items.add(new Widgets.Item("TeleSpeechASR · 推荐 · 更快", IconView.SPARK));
-        items.add(new Widgets.Item("XingChenASR-V3.2-Ultra · 试一试", IconView.SPARK));
+        items.add(new Widgets.Item("XingChenASR-V3.2-Ultra", IconView.SPARK));
         items.add(new Widgets.Item("自定义模型名", IconView.EDIT));
         Widgets.showSheet(this, "语音识别模型", items, index -> {
             if (index == 0) {
