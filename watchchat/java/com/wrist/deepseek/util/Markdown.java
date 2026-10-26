@@ -2,9 +2,11 @@ package com.wrist.deepseek.util;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.AlignmentSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -25,6 +27,7 @@ public final class Markdown {
     public static CharSequence render(String md, Context c) {
         if (md == null || md.isEmpty()) return "";
         try {
+            md = MathText.formatMarkdown(md);
             SpannableStringBuilder out = new SpannableStringBuilder();
             String[] lines = md.replace("\r\n", "\n").replace('\r', '\n').split("\n", -1);
             boolean code = false;
@@ -47,6 +50,16 @@ public final class Markdown {
                     continue;
                 }
                 if (line.trim().isEmpty()) {
+                    continue;
+                }
+                if (line.charAt(0) == MathText.BLOCK) {
+                    String t = line.substring(1);
+                    int start = out.length();
+                    inline(out, t, c);
+                    out.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                            start, out.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    out.setSpan(new ForegroundColorSpan(0xFFDCE8FF), start, out.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     continue;
                 }
                 if (line.matches("^\\s*\\|?\\s*:?-{2,}.*")) {

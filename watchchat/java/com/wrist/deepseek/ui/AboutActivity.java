@@ -123,13 +123,17 @@ public class AboutActivity extends ScaledActivity {
         TextView changelog = Ui.mediumText(this, "版本更新", 12, Ui.MUTED);
         content.addView(changelog);
 
-        String version = "1.6.0";
+        String version = "1.7.0";
         try {
             version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
         addVersion("v" + version, true,
+                "修复 LaTeX 数学公式显示：分式、组合数、概率符号、方框与上下标",
+                "块级公式居中显示，不再出现原始 LaTeX 代码");
+
+        addVersion("v1.6.0", false,
                 "麦克风录音上限从 45 秒提升到 5 分钟",
                 "语音转写上传/等待时间同步放宽");
 
