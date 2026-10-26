@@ -130,7 +130,7 @@ public class AboutActivity extends ScaledActivity {
         }
 
         addVersion("v" + version, true,
-                "特别版：新增学科模式（自动 / 数学 / 语文 / 地理 / 其他）",
+                "特别版：新增学科模式（自动 / 关闭 / 数学 / 语文 / 地理 / 通用）",
                 "数学口语自动转符号：二分之一、x 平方、根号、因为所以",
                 "按学科加入术语热词和 DeepSeek 纠错规则");
 

@@ -1472,7 +1472,8 @@ public class MainActivity extends ScaledActivity {
                 public void onResult(String text) {
                     String subject = settings.getSubjectMode();
                     boolean subjectCorrection = !com.wrist.deepseek.core.Subject.AUTO.equals(subject)
-                            && !com.wrist.deepseek.core.Subject.OTHER.equals(subject);
+                            && !com.wrist.deepseek.core.Subject.OTHER.equals(subject)
+                            && !com.wrist.deepseek.core.Subject.OFF.equals(subject);
                     boolean holdFast = autoSend && settings.isHoldFastVoice()
                             && !subjectCorrection;
                     String prepared = com.wrist.deepseek.core.MathSpeech.normalize(

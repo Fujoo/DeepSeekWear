@@ -7,13 +7,15 @@ public final class Subject {
     public static final String CHINESE = "chinese";
     public static final String GEOGRAPHY = "geography";
     public static final String OTHER = "other";
+    public static final String OFF = "off";
 
     private Subject() {
     }
 
     public static String normalize(String mode) {
         if (MATH.equals(mode) || CHINESE.equals(mode)
-                || GEOGRAPHY.equals(mode) || OTHER.equals(mode)) return mode;
+                || GEOGRAPHY.equals(mode) || OTHER.equals(mode)
+                || OFF.equals(mode)) return mode;
         return AUTO;
     }
 
@@ -26,7 +28,9 @@ public final class Subject {
             case GEOGRAPHY:
                 return "地理";
             case OTHER:
-                return "其他";
+                return "通用";
+            case OFF:
+                return "关闭";
             default:
                 return "自动";
         }
@@ -50,6 +54,8 @@ public final class Subject {
                         + "数字和单位要与地理常识一致。";
             case OTHER:
                 return "当前是通用语音。只修正同音字、错别字、断句和标点，保留原意。";
+            case OFF:
+                return "学科增强已关闭。只按通用语音纠错规则处理，不做学科术语增强和数学公式转换。";
             default:
                 return "自动判断学科。遇到数学、语文或地理术语时优先采用正确写法；"
                         + "数学题中若出现‘设计和’‘真整数’‘人以’‘之阶’等明显同音错误，"
@@ -69,6 +75,10 @@ public final class Subject {
             case GEOGRAPHY:
                 return "等高线、季风、洋流、板块构造、喀斯特、地中海气候、温带海洋性气候、"
                         + "时区、经线、纬线、地形、地貌、人口密度、城市化、产业转移";
+            case OTHER:
+                return "无特定学科术语";
+            case OFF:
+                return "无（学科增强已关闭）";
             default:
                 return "数学、语文、地理等学科术语";
         }

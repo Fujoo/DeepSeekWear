@@ -320,7 +320,7 @@ public class SettingsActivity extends ScaledActivity {
     }
 
     private void chooseSubject() {
-        String[] modes = {Subject.AUTO, Subject.MATH, Subject.CHINESE,
+        String[] modes = {Subject.AUTO, Subject.OFF, Subject.MATH, Subject.CHINESE,
                 Subject.GEOGRAPHY, Subject.OTHER};
         String current = settings.getSubjectMode();
         List<Widgets.Item> items = new ArrayList<>();
