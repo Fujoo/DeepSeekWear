@@ -2,6 +2,8 @@ package com.wrist.deepseek.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Converts common LaTeX math into readable Unicode for the watch's TextViews.
@@ -10,6 +12,9 @@ import java.util.Map;
 public final class MathText {
     /** Private-use marker tells Markdown to center and tint a display formula. */
     public static final char BLOCK = '\uE000';
+    public static final char FRAC_START = '\uE001';
+    public static final char FRAC_SEP = '\uE002';
+    public static final char FRAC_END = '\uE003';
 
     private static final Map<String, String> SYMBOLS = new HashMap<>();
 
@@ -89,7 +94,7 @@ public final class MathText {
                 out.append(s.substring(next));
                 break;
             }
-            String expr = formatExpr(s.substring(next + 2, end));
+            String expr = slashFractions(formatExpr(s.substring(next + 2, end)));
             if (block) {
                 out.append("\n\n");
                 for (String line : expr.split("\n", -1)) {
@@ -132,8 +137,8 @@ public final class MathText {
                 if ("frac".equals(cmd) || "dfrac".equals(cmd) || "tfrac".equals(cmd)) {
                     String a = group(s, pos);
                     String b = group(s, pos);
-                    out.append('(').append(formatExpr(a)).append(")/(")
-                            .append(formatExpr(b)).append(')');
+                    out.append(FRAC_START).append(formatExpr(a))
+                            .append(FRAC_SEP).append(formatExpr(b)).append(FRAC_END);
                 } else if ("binom".equals(cmd)) {
                     String a = group(s, pos);
                     String b = group(s, pos);
@@ -175,6 +180,7 @@ public final class MathText {
                     out.append('\n');
                 } else if (SYMBOLS.containsKey(cmd)) {
                     out.append(SYMBOLS.get(cmd));
+                    skipSpace(s, pos);
                 } else {
                     // Never leave a backslash in the rendered text.
                     out.append(cmd);
@@ -235,6 +241,22 @@ public final class MathText {
         }
         pos[0] = i;
         return depth == 0 ? s.substring(start, i - 1) : s.substring(start);
+    }
+
+    private static String slashFractions(String s) {
+        // Plain "1/2" in a problem statement is a fraction too. Keep it to
+        // simple single operands so prose, dates and URLs do not get mangled.
+        Pattern p = Pattern.compile("(?<![\\w\\uE001\\uE002\\uE003])"
+                + "(\\d+(?:\\.\\d+)?|[A-Za-z])\\s*/\\s*"
+                + "(\\d+(?:\\.\\d+)?|[A-Za-z])(?![\\w])");
+        Matcher m = p.matcher(s);
+        StringBuffer b = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(b, Matcher.quoteReplacement(""
+                    + FRAC_START + m.group(1) + FRAC_SEP + m.group(2) + FRAC_END));
+        }
+        m.appendTail(b);
+        return b.toString();
     }
 
     private static String superscript(String s) {

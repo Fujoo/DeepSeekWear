@@ -158,6 +158,21 @@ public final class Markdown {
         int bold = -1, italic = -1, strike = -1, code = -1;
         while (i < s.length()) {
             char ch = s.charAt(i);
+            if (ch == MathText.FRAC_START) {
+                int sep = s.indexOf(MathText.FRAC_SEP, i + 1);
+                int end = sep > i ? s.indexOf(MathText.FRAC_END, sep + 1) : -1;
+                if (sep > i && end > sep) {
+                    String num = s.substring(i + 1, sep);
+                    String den = s.substring(sep + 1, end);
+                    int start = out.length();
+                    out.append(num).append('/').append(den);
+                    out.setSpan(new FractionSpan(num, den,
+                                    Ui.dp(c, 2), Ui.dp(c, 1.5f)),
+                            start, out.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    i = end + 1;
+                    continue;
+                }
+            }
             if (ch == '\\' && i + 1 < s.length()) {
                 out.append(s.charAt(i + 1));
                 i += 2;
