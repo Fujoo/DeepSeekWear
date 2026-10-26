@@ -310,6 +310,7 @@ public class SettingsActivity extends ScaledActivity {
         String m = settings.getAsrModel();
         if (m.contains("SenseVoice")) return "SenseVoiceSmall";
         if (m.contains("TeleSpeech")) return "TeleSpeechASR";
+        if (m.contains("XingChen")) return "XingChenASR-V3.2-Ultra";
         return m;
     }
 
@@ -317,6 +318,7 @@ public class SettingsActivity extends ScaledActivity {
         List<Widgets.Item> items = new ArrayList<>();
         items.add(new Widgets.Item("SenseVoiceSmall · 高精度", IconView.CHECK));
         items.add(new Widgets.Item("TeleSpeechASR · 推荐 · 更快", IconView.SPARK));
+        items.add(new Widgets.Item("XingChenASR-V3.2-Ultra · 试一试", IconView.SPARK));
         items.add(new Widgets.Item("自定义模型名", IconView.EDIT));
         Widgets.showSheet(this, "语音识别模型", items, index -> {
             if (index == 0) {
@@ -327,6 +329,10 @@ public class SettingsActivity extends ScaledActivity {
                 settings.setAsrModel(Settings.DEFAULT_ASR_MODEL);
                 refreshValues();
                 Ui.toast(this, "已切换到 TeleSpeechASR");
+            } else if (index == 2) {
+                settings.setAsrModel("XingChenAGI/XingChenASR-V3.2-Ultra");
+                refreshValues();
+                Ui.toast(this, "已切换到 XingChenASR-V3.2-Ultra");
             } else {
                 Widgets.showInput(this, "自定义识别模型", "例如 FunAudioLLM/SenseVoiceSmall",
                         settings.getAsrModel(), false, value -> {
